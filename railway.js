@@ -1,5 +1,4 @@
 const trips = require("./data.js");
-console.log(trips[0])
 const  input = require('readline-sync')
 function validnumber(prompte)
 {
@@ -54,6 +53,9 @@ function displayTrips(routes)
 	{
 		Print_tecket(routes[i],i)
 	}
+	input.question("Press Enter to return to menu...");
+        return;
+
 }
 function print_tecket(cart, find)
 {
@@ -65,7 +67,6 @@ function print_tecket(cart, find)
 		console.log("===========================================")
 }
 
-displayTrips(trips)
 let tickets = [
     {
         id: 1,
@@ -195,8 +196,9 @@ function BuyTicket(trips, tickets)
 
 		}
 	}
+	input.question("Press Enter to return to menu...");
+        return;
 }
-//BuyTicket(trips, tickets)
 function Show_Tickets(list_of_tickets, trips)
 {
 	for(const ticket of list_of_tickets)
@@ -241,8 +243,9 @@ function DeletTicket(tickets)
 			break;
 		}
 	}
+	input.question("Press Enter to return to menu...");
+        return;
 }
-//DeletTicket(tickets);
 function SearchForTicket(tickets,trips)
 {
 	PassangerName = validstring("Passanger Name: ")
@@ -260,13 +263,123 @@ function SearchForTicket(tickets,trips)
 			}print_tecket(cart,found);
 		}
 	}
-	//console.log("not")
+	console.log("this ticket not exist")
+	input.question("Press Enter to return to menu...");
+        return;
 }
-//SearchForTicket(tickets,trips);
-//function FilterTrips(trips)
-//{
-//	let trip = validstring("enter the trip: ")
-//	for(const route of trips)
-//	{
-//
+function FilterTrips(list)
+{
+	let trip = validstring("enter the trip: ")
+
+	for(const route of list)
+	{
+		if(route.departure === trip)
+		{
+			console.log(`${route.departure} -> ${route.destination}: ${route.price} DH`);
+		}
+	}
+	input.question("Press Enter to return to menu...");
+        return;
+}
+function SearchByPrice(trips)
+{
+	let TempTrips = [...trips];
+	for(let i = 0; i < TempTrips.length;i++)
+	{
+		for(let j = 0; j < TempTrips.length - 1 - i; j++)
+		{
+			if(TempTrips[j].price > TempTrips[j + 1].price)
+			{
+				[TempTrips[j], TempTrips[j + 1]] = [TempTrips[j + 1], TempTrips[j]]
+			}
+		}
+	}
+	console.log("==========Trier les trajets===========")	
+	for(const route of TempTrips)
+	{
+		console.log(`${route.departure} -> ${route.destination}: ${route.price} DH`);
+	}
+	input.question("Press Enter to return to menu...");
+        return;
+
+}
+function Statistiques(tickets)
+{
+	console.log("Nombre total de tickets :",tickets.length);
+	let sum = 0;
+	for(const route of tickets)
+	{
+		sum += route.price;
+	}
+	console.log("Nombre total de tickets :", sum);
+	let min = trips[0];
+	for(const route of trips)
+	{
+		if(min.availableSeats > route.availableSeats)
+		{
+			min = rout;
+		}
+	}
+	console.log(min.availableSeats);
+	console.log("======Trajet le plus vendu======")
+	console.log(`${min.departure} -> ${min.destination}`)
+	console.log(`${50 - min.availableSeats} tickets vendus`);
+	input.question("Press Enter to return to menu...");
+	return;
+
+}
+function Menu()
+{
+	         console.log("---------------------------------------------------------------");
+                 console.log("---------------------------------------------------------------");
+                 console.log("                        RAILWAY MANAGER                        " );
+                 console.log("---------------------------------------------------------------");
+                 console.log("---------------------------------------------------------------");
+                 console.log("[1]   show trip list. ")
+                 console.log("[2]   buy ticket." )
+                 console.log("[3]   delete ticket" )
+                 console.log("[4]   show ticket list.")
+                 console.log("[5]   Search for ticket" )
+                 console.log("[6]   Filter trips." )
+                 console.log("[7]   Sort by price.")
+		 console.log("[8]   statistique")
+                 console.log("[0]   exit.")
+}
+function Generate(trips,tickets)
+{
+	while(true)
+	{
+		Menu();
+	answer = validNumber("choose what do you want to do? from[1 to 8] :")
+	switch(answer){
+		case 1:
+			displayTrips(trips); 
+			break
+		case 2:
+			BuyTicket(trips, tickets)
+			break
+		case 3:
+			DeletTicket(tickets)
+			break
+		case 4:
+			Show_Tickets(tickets, trips)
+			break
+		case 5:
+			SearchForTicket(tickets,trips);
+			break
+		case 6:
+			FilterTrips(trips)
+			break;
+		case 7:
+			SearchByPrice(trips)
+			console
+			break;
+		case 8: 
+			return
+		default:
+			console.log("invalid.please choose from[1 to 8]")}
+	}
+}
+Generate(trips,tickets)
+
 
