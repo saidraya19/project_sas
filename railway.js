@@ -96,3 +96,4 @@ function BuyTicket(trips, tickets)
 	}
 }
 BuyTicket(trips, tickets)
+
